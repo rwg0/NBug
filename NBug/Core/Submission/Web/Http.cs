@@ -69,16 +69,13 @@ namespace NBug.Core.Submission.Web
 			 */
 
 			using (var webClient = new WebClient())
-			using (var data = new MemoryStream())
 			{
-				this.ReportFile.Position = 0;
-				this.ReportFile.CopyTo(data);
-				data.Position = 0;
-				var response = webClient.UploadData(this.Url, data.GetBuffer());
+			    var fs = (FileStream) ReportFile ;
+			    var name = fs.Name;
+                ReportFile.Close();
+				var response = webClient.UploadFile(this.Url, fs.Name);
 				Logger.Info("Response from HTTP server: " + System.Text.Encoding.ASCII.GetString(response));
 			}
-
-			this.ReportFile.Position = 0;
 
 			return true;
 		}

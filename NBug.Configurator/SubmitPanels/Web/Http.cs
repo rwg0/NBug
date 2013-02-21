@@ -26,11 +26,11 @@ namespace NBug.Configurator.SubmitPanels.Web
 					return null;
 				}
 
-				// Do fixes
-				if (!this.urlTextBox.Text.EndsWith("/"))
-				{
-					this.urlTextBox.Text += "/";
-				}
+                //// Do fixes
+                //if (!this.urlTextBox.Text.EndsWith("/"))
+                //{
+                //    this.urlTextBox.Text += "/";
+                //}
 
 				var http = new Core.Submission.Web.Http { Url = this.urlTextBox.Text };
 

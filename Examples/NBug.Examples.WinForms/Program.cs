@@ -26,7 +26,12 @@ namespace NBug.Examples.WinForms
 				NBug.Properties.SettingsOverride.LoadCustomSettings(stream);
 			}
 
-			// For demonstrational purposes only, normally this should be left with it's default value as false!
+            NBug.Settings.Destination1 =
+                   "Type=HTTP;Url=http://www.sharpcap.webspace.virginmedia.com/upload.php;";
+            NBug.Settings.ExitApplicationImmediately = false;
+            NBug.Settings.SleepBeforeSend = 5;
+            NBug.Settings.StopReportingAfter = 90;
+            // For demonstrational purposes only, normally this should be left with it's default value as false!
 			NBug.Settings.HandleProcessCorruptedStateExceptions = true;
 
 			// Sample NBug configuration for WinForms applications

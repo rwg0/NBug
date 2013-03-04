@@ -88,5 +88,11 @@ namespace NBug.Core.UI.WinForms
 				}
 			}*/
 		}
+
+        private void Full_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            this.uiDialogResult = new UIDialogResult(ExecutionFlow.BreakExecution, SendReport.DoNotSend);
+//            this.Close();
+        }
 	}
 }

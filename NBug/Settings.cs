@@ -368,7 +368,9 @@ namespace NBug
 		/// </summary>
 		internal static bool RemoveThreadSleep { get; set; }
 
-		#endregion
+	    public static bool TrySendingBeforeExit { get; set; }
+
+	    #endregion
 
 		#region Load Save Settings Methods
 

@@ -5,6 +5,7 @@
 // --------------------------------------------------------------------------------------------------------------------
 
 using System.Text;
+using NBug.Core.Submission;
 
 namespace NBug.Core.Reporting
 {
@@ -49,6 +50,12 @@ namespace NBug.Core.Reporting
 				if (uiDialogResult.Report == SendReport.Send)
 				{
 					this.CreateReportZip(serializableException, report);
+
+				    if (Settings.TrySendingBeforeExit)
+				    {
+				        var dispatcher = new Dispatcher(false); // and that should kick it off
+				    }
+				
 				}
 
 				return uiDialogResult.Execution;

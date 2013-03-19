@@ -176,7 +176,6 @@ namespace NBug.Core.Reporting
 	    {
 	        StringBuilder bld = new StringBuilder();
 	        bld.Append(serializableException.Type.Split('.').Last());
-            bld.AppendFormat("_{0}_", serializableException.BugId);
             if (!string.IsNullOrEmpty(serializableException.StackTrace))
             {
                 string line1 = serializableException.StackTrace.Split('\r')[0];
@@ -189,8 +188,8 @@ namespace NBug.Core.Reporting
                     bld.Append(line1.Substring(line1.IndexOf(".cs:")+3));
                 }
             }
-	        bld.Append("_");
-	        bld.Append(DateTime.UtcNow.ToFileTimeUtc());
+            bld.AppendFormat("_{0}_", serializableException.BugId);
+            bld.Append(DateTime.UtcNow.ToFileTimeUtc());
 	        bld.Replace("  ", " ");
 	        foreach (char c in Path.GetInvalidFileNameChars())
 	            bld.Replace(c, '_');

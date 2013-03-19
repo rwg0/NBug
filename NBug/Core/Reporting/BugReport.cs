@@ -4,6 +4,7 @@
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
+using System.Linq;
 using System.Text;
 using NBug.Core.Submission;
 
@@ -174,7 +175,7 @@ namespace NBug.Core.Reporting
 	    private string MakeFileName(SerializableException serializableException)
 	    {
 	        StringBuilder bld = new StringBuilder();
-	        bld.Append(serializableException.Type.Split('.')[0]);
+	        bld.Append(serializableException.Type.Split('.').Last());
             bld.AppendFormat("_{0}_", serializableException.BugId);
             if (!string.IsNullOrEmpty(serializableException.StackTrace))
             {

@@ -41,12 +41,12 @@ using System.Reflection;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.1.5")]
+[assembly: AssemblyVersion("1.1.6")]
 
 // This is also assigned to 'AssemblyInformationalVersion' which is the product version
 // Standard Way: [major].[minor].[bugfix].[build]
 // .NET Convention: Third digit is the auto-incremented build version. Fourth digit is revision, which is service pack no
-[assembly: AssemblyFileVersion("1.1.5.0")]
+[assembly: AssemblyFileVersion("1.1.6.0")]
 
 /* 
  * AssemblyVersion should only be changed for major changes or breaking changes since any change to the 

@@ -195,11 +195,11 @@
             // nbugLabel
             // 
             this.nbugLabel.AutoSize = true;
-            this.nbugLabel.Location = new System.Drawing.Point(259, 185);
+            this.nbugLabel.Location = new System.Drawing.Point(260, 185);
             this.nbugLabel.Name = "nbugLabel";
-            this.nbugLabel.Size = new System.Drawing.Size(41, 13);
+            this.nbugLabel.Size = new System.Drawing.Size(44, 13);
             this.nbugLabel.TabIndex = 8;
-            this.nbugLabel.Text = "Bug Id:";
+            this.nbugLabel.Text = "Error Id:";
             // 
             // applicationTextBox
             // 

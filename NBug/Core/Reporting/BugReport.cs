@@ -6,7 +6,9 @@
 
 using System.Linq;
 using System.Text;
+using System.Windows.Forms;
 using NBug.Core.Submission;
+using NBug.Enums;
 
 namespace NBug.Core.Reporting
 {
@@ -50,6 +52,10 @@ namespace NBug.Core.Reporting
 				var uiDialogResult = UISelector.DisplayBugReportUI(exceptionThread, serializableException, report);
 				if (uiDialogResult.Report == SendReport.Send)
 				{
+				    if (Settings.UIMode != UIMode.None && !string.IsNullOrEmpty(serializableException.BugId))
+				        MessageBox.Show(
+				            string.Format("The Error ID for this report is {0}.\r\n\r\nPlease quote this Error ID if you\r\nreport this issue via another channel.",
+				                          serializableException.BugId), "Your Error ID", MessageBoxButtons.OK, MessageBoxIcon.Information);
 					this.CreateReportZip(serializableException, report);
 
 				    if (Settings.TrySendingBeforeExit)

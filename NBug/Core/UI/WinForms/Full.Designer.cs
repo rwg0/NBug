@@ -43,7 +43,7 @@
             this.clrLabel = new System.Windows.Forms.Label();
             this.dateTimeTextBox = new System.Windows.Forms.TextBox();
             this.dateTimeLabel = new System.Windows.Forms.Label();
-            this.nbugTextBox = new System.Windows.Forms.TextBox();
+            this.bugIdTextBox = new System.Windows.Forms.TextBox();
             this.nbugLabel = new System.Windows.Forms.Label();
             this.applicationTextBox = new System.Windows.Forms.TextBox();
             this.applicationLabel = new System.Windows.Forms.Label();
@@ -94,7 +94,7 @@
             this.generalTabPage.Controls.Add(this.clrLabel);
             this.generalTabPage.Controls.Add(this.dateTimeTextBox);
             this.generalTabPage.Controls.Add(this.dateTimeLabel);
-            this.generalTabPage.Controls.Add(this.nbugTextBox);
+            this.generalTabPage.Controls.Add(this.bugIdTextBox);
             this.generalTabPage.Controls.Add(this.nbugLabel);
             this.generalTabPage.Controls.Add(this.applicationTextBox);
             this.generalTabPage.Controls.Add(this.applicationLabel);
@@ -185,21 +185,21 @@
             this.dateTimeLabel.TabIndex = 10;
             this.dateTimeLabel.Text = "Date/Time:";
             // 
-            // nbugTextBox
+            // bugIdTextBox
             // 
-            this.nbugTextBox.Location = new System.Drawing.Point(307, 182);
-            this.nbugTextBox.Name = "nbugTextBox";
-            this.nbugTextBox.Size = new System.Drawing.Size(145, 20);
-            this.nbugTextBox.TabIndex = 9;
+            this.bugIdTextBox.Location = new System.Drawing.Point(307, 182);
+            this.bugIdTextBox.Name = "bugIdTextBox";
+            this.bugIdTextBox.Size = new System.Drawing.Size(145, 20);
+            this.bugIdTextBox.TabIndex = 9;
             // 
             // nbugLabel
             // 
             this.nbugLabel.AutoSize = true;
             this.nbugLabel.Location = new System.Drawing.Point(259, 185);
             this.nbugLabel.Name = "nbugLabel";
-            this.nbugLabel.Size = new System.Drawing.Size(37, 13);
+            this.nbugLabel.Size = new System.Drawing.Size(41, 13);
             this.nbugLabel.TabIndex = 8;
-            this.nbugLabel.Text = "NBug:";
+            this.nbugLabel.Text = "Bug Id:";
             // 
             // applicationTextBox
             // 
@@ -409,7 +409,7 @@
 		private System.Windows.Forms.TextBox exceptionTextBox;
 		private System.Windows.Forms.TextBox targetSiteTextBox;
 		private System.Windows.Forms.Label targetSiteLabel;
-		private System.Windows.Forms.TextBox nbugTextBox;
+		private System.Windows.Forms.TextBox bugIdTextBox;
 		private System.Windows.Forms.Label nbugLabel;
 		private System.Windows.Forms.TextBox applicationTextBox;
 		private System.Windows.Forms.Label applicationLabel;

@@ -4,6 +4,8 @@
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
+using NBug.Enums;
+
 namespace NBug.Examples.WinForms
 {
 	using System;
@@ -27,12 +29,25 @@ namespace NBug.Examples.WinForms
 			}
 
             NBug.Settings.Destination1 =
-                   "Type=HTTP;Url=http://www.sharpcap.webspace.virginmedia.com/upload.php;";
-            NBug.Settings.ExitApplicationImmediately = false;
+      "Type=HTTP;Url=http://errors.sharpcap.co.uk/upload.php;";
+            NBug.Settings.ExitApplicationImmediately = true;
             NBug.Settings.SleepBeforeSend = 5;
             NBug.Settings.StopReportingAfter = 90;
-            // For demonstrational purposes only, normally this should be left with it's default value as false!
-			NBug.Settings.HandleProcessCorruptedStateExceptions = true;
+          //  NBug.Settings.ReleaseMode = true;
+            NBug.Settings.UIMode = UIMode.Full;
+            NBug.Settings.WriteLogToDisk = false;
+            NBug.Settings.StoragePath = StoragePath.WindowsTemp;
+            NBug.Settings.TrySendingBeforeExit = true;
+            //NBug.Settings.Destination1 =
+            //       "Type=HTTP;Url=http://www.sharpcap.webspace.virginmedia.com/upload.php;";
+            //NBug.Settings.ExitApplicationImmediately = false;
+            //NBug.Settings.SleepBeforeSend = 5;
+            //NBug.Settings.StopReportingAfter = 90;
+            //// For demonstrational purposes only, normally this should be left with it's default value as false!
+            //NBug.Settings.HandleProcessCorruptedStateExceptions = true;
+            //NBug.Settings.UIMode = UIMode.Full;
+            ////NBug.Settings.ReleaseMode = true;
+		    
 
 			// Sample NBug configuration for WinForms applications
 			AppDomain.CurrentDomain.UnhandledException += NBug.Handler.UnhandledException;

@@ -174,7 +174,8 @@ namespace NBug.Core.Reporting
 	    private string MakeFileName(SerializableException serializableException)
 	    {
 	        StringBuilder bld = new StringBuilder();
-	        bld.Append(serializableException.Type);
+	        bld.Append(serializableException.Type.Split('.')[0]);
+            bld.AppendFormat("_{0}_", serializableException.BugId);
             if (!string.IsNullOrEmpty(serializableException.StackTrace))
             {
                 string line1 = serializableException.StackTrace.Split('\r')[0];

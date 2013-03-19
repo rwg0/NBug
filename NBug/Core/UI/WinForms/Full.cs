@@ -43,7 +43,7 @@ namespace NBug.Core.UI.WinForms
 			this.exceptionMessageTextBox.Text = exception.Message;
 			this.targetSiteTextBox.Text = exception.TargetSite;
 			this.applicationTextBox.Text = report.GeneralInfo.HostApplication + " [" + report.GeneralInfo.HostApplicationVersion + "]";
-			this.nbugTextBox.Text = report.GeneralInfo.NBugVersion;
+			this.bugIdTextBox.Text = exception.BugId;
 			this.dateTimeTextBox.Text = report.GeneralInfo.DateTime;
 			this.clrTextBox.Text = report.GeneralInfo.CLRVersion;
 			

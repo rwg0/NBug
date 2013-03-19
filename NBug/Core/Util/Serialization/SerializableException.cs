@@ -16,8 +16,8 @@ namespace NBug.Core.Util.Serialization
 	{
         private static readonly Random _rand = new Random();
 
-	    private readonly int _bugId = _rand.Next(100000) + 1;
-        public string BugId { get { return "#" + _bugId.ToString("I06"); } }
+	    private readonly int _bugId = _rand.Next(99999) + 1;
+        public string BugId { get { return "#" + _bugId.ToString("D5"); } }
 		/// <summary>
 		/// Initializes a new instance of the <see cref="SerializableException"/> class. 
 		/// Default constructor provided for XML serialization and de-serialization.

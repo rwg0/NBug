@@ -46,24 +46,24 @@ namespace NBug.Core.Util.Storage
 		{
 			if (Settings.StoragePath == Enums.StoragePath.WindowsTemp)
 			{
-				var path = Path.Combine(new[] { Path.GetTempPath(), Settings.EntryAssembly.GetName().Name });
- 				return Directory.Exists(path) ? Directory.EnumerateFiles(path, "*.error.zip").Count() : 0;
+                var path = Path.Combine(new[] { System.Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), Settings.EntryAssembly.GetName().Name });
+				return Directory.Exists(path) ? Directory.EnumerateFiles(path, "*.error.zip").Count() : 0;
 			}
 			else if (Settings.StoragePath == Enums.StoragePath.CurrentDirectory)
 			{
- 				return Directory.Exists(Settings.NBugDirectory) ? Directory.EnumerateFiles(Settings.NBugDirectory, "*.error.zip").Count() : 0;
+				return Directory.Exists(Settings.NBugDirectory) ? Directory.EnumerateFiles(Settings.NBugDirectory, "*.error.zip").Count() : 0;
 			}
 			else if (Settings.StoragePath == Enums.StoragePath.IsolatedStorage)
 			{
 				using (var isoFile = IsolatedStorageFile.GetStore(IsolatedStorageScope.User | IsolatedStorageScope.Assembly | IsolatedStorageScope.Domain, null, null))
 				{
- 					return isoFile.GetFileNames("*.error.zip").Count();
+					return isoFile.GetFileNames("*.error.zip").Count();
 				}
 			}
 			else if (Settings.StoragePath == Enums.StoragePath.Custom)
 			{
 				var path = Path.GetFullPath(Settings.StoragePath);
- 				return Directory.Exists(path) ? Directory.EnumerateFiles(path, "*.error.zip").Count() : 0;
+				return Directory.Exists(path) ? Directory.EnumerateFiles(path, "*.error.zip").Count() : 0;
 			}
 			else
 			{
@@ -92,7 +92,7 @@ namespace NBug.Core.Util.Storage
 			}
 			else if (Settings.StoragePath == Enums.StoragePath.WindowsTemp)
 			{
-				var path = Path.Combine(new[] { Path.GetTempPath(), Settings.EntryAssembly.GetName().Name });
+                var path = Path.Combine(new[] { System.Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), Settings.EntryAssembly.GetName().Name });
 				TruncateFiles(path, maxQueuedReports);
 			}
 			else if (Settings.StoragePath == Enums.StoragePath.CurrentDirectory)
@@ -148,7 +148,7 @@ namespace NBug.Core.Util.Storage
 
 			if (Settings.StoragePath == Enums.StoragePath.WindowsTemp)
 			{
-				string directoryPath = Path.Combine(new[] { Path.GetTempPath(), Settings.EntryAssembly.GetName().Name });
+                string directoryPath = Path.Combine(new[] { System.Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), Settings.EntryAssembly.GetName().Name });
 
 				if (Directory.Exists(directoryPath) == false)
 				{
@@ -219,7 +219,7 @@ namespace NBug.Core.Util.Storage
 
 			if (Settings.StoragePath == Enums.StoragePath.WindowsTemp)
 			{
-				string path = Path.Combine(new[] { Path.GetTempPath(), Settings.EntryAssembly.GetName().Name });
+                string path = Path.Combine(new[] { System.Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), Settings.EntryAssembly.GetName().Name });
 
 				if (Directory.Exists(path) && Directory.EnumerateFiles(path, "*.error.zip").Count() > 0)
 				{

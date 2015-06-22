@@ -4,6 +4,12 @@
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
+using System.Linq;
+using System.Text;
+using System.Windows.Forms;
+using NBug.Core.Submission;
+using NBug.Enums;
+
 namespace NBug.Core.Reporting
 {
 	using System;
@@ -46,7 +52,17 @@ namespace NBug.Core.Reporting
 				var uiDialogResult = UISelector.DisplayBugReportUI(exceptionThread, serializableException, report);
 				if (uiDialogResult.Report == SendReport.Send)
 				{
+				    if (Settings.UIMode != UIMode.None && !string.IsNullOrEmpty(serializableException.BugId))
+				        MessageBox.Show(
+				            string.Format("The Error ID for this report is {0}.\r\n\r\nPlease quote this Error ID if you\r\nreport this issue via another channel.",
+				                          serializableException.BugId), "Your Error ID", MessageBoxButtons.OK, MessageBoxIcon.Information);
 					this.CreateReportZip(serializableException, report);
+
+				    if (Settings.TrySendingBeforeExit)
+				    {
+				        var dispatcher = new Dispatcher(false); // and that should kick it off
+				    }
+				
 				}
 
 				return uiDialogResult.Execution;
@@ -133,9 +149,8 @@ namespace NBug.Core.Reporting
 				// Test if there is already more than enough queued report files
 				if (Settings.MaxQueuedReports < 0 || Storer.GetReportCount() < Settings.MaxQueuedReports)
 				{
-					var reportFileName = "Exception_" + DateTime.UtcNow.ToFileTime() + ".zip";
-					var minidumpFilePath = Path.Combine(
-						Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), "Exception_MiniDump_" + DateTime.UtcNow.ToFileTime() + ".mdmp");
+					var reportFileName = MakeFileName(serializableException) + ".error.zip";
+					var minidumpFilePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), "Exception_MiniDump_" + DateTime.UtcNow.ToFileTime() + ".mdmp");
 
 					using (var storer = new Storer())
 					using (var zipStorer = ZipStorer.Create(storer.CreateReportFile(reportFileName), string.Empty))
@@ -237,6 +252,83 @@ namespace NBug.Core.Reporting
 				}
 				bitmap.Save("C://test.jpg", ImageFormat.Jpeg);
 			}*/
+		}	
+		
+	    private string MakeFileName(SerializableException serializableException)
+	    {
+	        StringBuilder bld = new StringBuilder();
+	        bld.Append(serializableException.Type.Split('.').Last());
+            if (!string.IsNullOrEmpty(serializableException.StackTrace))
+            {
+                string line1 = serializableException.StackTrace.Split('\r')[0];
+                if (line1.IndexOf(')')!=-1)
+                {
+                    bld.Append(line1.Substring(0, line1.IndexOf(')') + 1));
+                }
+                if (line1.IndexOf(".cs:") != -1)
+                {
+                    bld.Append(line1.Substring(line1.IndexOf(".cs:")+3));
+                }
+            }
+            bld.AppendFormat("_{0}_", serializableException.BugId);
+            bld.Append(DateTime.UtcNow.ToFileTimeUtc());
+	        bld.Replace("  ", " ");
+	        foreach (char c in Path.GetInvalidFileNameChars())
+	            bld.Replace(c, '_');
+	        return bld.ToString();
+	    }
+
+	    // ToDo: PRIORITY TASK! This code needs more testing & condensation
+		private void AddAdditionalFiles(ZipStorer zipStorer)
+		{
+			foreach (var mask in Settings.AdditionalReportFiles)
+			{
+				// Join before spliting because the mask may have some folders inside it
+				var fullPath = Path.Combine(Settings.NBugDirectory, mask);
+				var dir = Path.GetDirectoryName(fullPath);
+				var file = Path.GetFileName(fullPath);
+
+				if (!Directory.Exists(dir))
+					continue;
+
+				if (file.Contains("*") || file.Contains("?"))
+				{
+
+					foreach (var item in Directory.GetFiles(dir, file))
+						AddToZip(zipStorer, Settings.NBugDirectory, item);
+				}
+				else
+				{
+					AddToZip(zipStorer, Settings.NBugDirectory, fullPath);
+				}
+			}
+		}
+
+		// ToDo: PRIORITY TASK! This code needs more testing & condensation
+		private void AddToZip(ZipStorer zipStorer, string basePath, string path)
+		{
+			path = Path.GetFullPath(path);
+
+			// If this is not inside basePath, lets change the basePath so at least some directories are kept
+			if (!path.StartsWith(basePath))
+				basePath = Path.GetDirectoryName(path);
+
+			if (Directory.Exists(path))
+			{
+				foreach (var file in Directory.GetFiles(path))
+					AddToZip(zipStorer, basePath, file);
+				foreach (var dir in Directory.GetDirectories(path))
+					AddToZip(zipStorer, basePath, dir);
+			}
+			else if (File.Exists(path))
+			{
+				var nameInZip = path.Substring(basePath.Length);
+				if (nameInZip.StartsWith("\\") || nameInZip.StartsWith("/"))
+					nameInZip = nameInZip.Substring(1);
+				nameInZip = Path.Combine("files", nameInZip);
+
+				zipStorer.AddFile(ZipStorer.Compression.Deflate, path, nameInZip, string.Empty);
+			}
 		}
 	}
 }

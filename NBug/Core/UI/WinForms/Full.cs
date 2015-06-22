@@ -18,7 +18,7 @@ namespace NBug.Core.UI.WinForms
 
 	internal partial class Full : Form
 	{
-		private UIDialogResult uiDialogResult;
+		private UIDialogResult uiDialogResult = new UIDialogResult(ExecutionFlow.BreakExecution, SendReport.DoNotSend);
 
 		internal Full()
 		{
@@ -46,7 +46,7 @@ namespace NBug.Core.UI.WinForms
 			this.exceptionMessageTextBox.Text = exception.Message;
 			this.targetSiteTextBox.Text = exception.TargetSite;
 			this.applicationTextBox.Text = report.GeneralInfo.HostApplication + " [" + report.GeneralInfo.HostApplicationVersion + "]";
-			this.nbugTextBox.Text = report.GeneralInfo.NBugVersion;
+			this.bugIdTextBox.Text = exception.BugId;
 			this.dateTimeTextBox.Text = report.GeneralInfo.DateTime;
 			this.clrTextBox.Text = report.GeneralInfo.CLRVersion;
 

@@ -47,23 +47,23 @@ namespace NBug.Core.Util.Storage
 			if (Settings.StoragePath == Enums.StoragePath.WindowsTemp)
 			{
 				var path = Path.Combine(new[] { Path.GetTempPath(), Settings.EntryAssembly.GetName().Name });
-				return Directory.Exists(path) ? Directory.EnumerateFiles(path, "Exception_*.zip").Count() : 0;
+ 				return Directory.Exists(path) ? Directory.EnumerateFiles(path, "*.error.zip").Count() : 0;
 			}
 			else if (Settings.StoragePath == Enums.StoragePath.CurrentDirectory)
 			{
-				return Directory.Exists(Settings.NBugDirectory) ? Directory.EnumerateFiles(Settings.NBugDirectory, "Exception_*.zip").Count() : 0;
+ 				return Directory.Exists(Settings.NBugDirectory) ? Directory.EnumerateFiles(Settings.NBugDirectory, "*.error.zip").Count() : 0;
 			}
 			else if (Settings.StoragePath == Enums.StoragePath.IsolatedStorage)
 			{
 				using (var isoFile = IsolatedStorageFile.GetStore(IsolatedStorageScope.User | IsolatedStorageScope.Assembly | IsolatedStorageScope.Domain, null, null))
 				{
-					return isoFile.GetFileNames("Exception_*.zip").Count();
+ 					return isoFile.GetFileNames("*.error.zip").Count();
 				}
 			}
 			else if (Settings.StoragePath == Enums.StoragePath.Custom)
 			{
 				var path = Path.GetFullPath(Settings.StoragePath);
-				return Directory.Exists(path) ? Directory.EnumerateFiles(path, "Exception_*.zip").Count() : 0;
+ 				return Directory.Exists(path) ? Directory.EnumerateFiles(path, "*.error.zip").Count() : 0;
 			}
 			else
 			{
@@ -103,7 +103,7 @@ namespace NBug.Core.Util.Storage
 			{
 				using (IsolatedStorageFile isoFile = IsolatedStorageFile.GetStore(IsolatedStorageScope.User | IsolatedStorageScope.Assembly | IsolatedStorageScope.Domain, null, null))
 				{
-					int reportCount = isoFile.GetFileNames("Exception_*.zip").Count();
+					int reportCount = isoFile.GetFileNames("*.error.zip").Count();
 
 					if (reportCount > maxQueuedReports)
 					{
@@ -118,7 +118,7 @@ namespace NBug.Core.Util.Storage
 							Logger.Trace("Truncating extra " + extraCount + " report files from the isolates storage.");
 						}
 						
-						foreach (var file in isoFile.GetFileNames("Exception_*.zip"))
+						foreach (var file in isoFile.GetFileNames("*.error.zip"))
 						{
 							extraCount--;
 							File.Delete(file);
@@ -221,11 +221,11 @@ namespace NBug.Core.Util.Storage
 			{
 				string path = Path.Combine(new[] { Path.GetTempPath(), Settings.EntryAssembly.GetName().Name });
 
-				if (Directory.Exists(path) && Directory.EnumerateFiles(path, "Exception_*.zip").Count() > 0)
+				if (Directory.Exists(path) && Directory.EnumerateFiles(path, "*.error.zip").Count() > 0)
 				{
 					try
 					{
-						this.FilePath = Directory.EnumerateFiles(path, "Exception_*.zip").First();
+                        this.FilePath = Directory.EnumerateFiles(path, "*.error.zip").First();
 						this.FileName = Path.GetFileName(this.FilePath);
 						return this.stream = new FileStream(this.FilePath, FileMode.Open, FileAccess.Read, FileShare.None);
 					}
@@ -246,11 +246,11 @@ namespace NBug.Core.Util.Storage
 			{
 				string path = Settings.NBugDirectory;
 
-				if (path != null && Directory.Exists(path) && Directory.EnumerateFiles(path, "Exception_*.zip").Count() > 0)
+                if (path != null && Directory.Exists(path) && Directory.EnumerateFiles(path, "*.error.zip").Count() > 0)
 				{
 					try
 					{
-						this.FilePath = Directory.EnumerateFiles(path, "Exception_*.zip").First();
+                        this.FilePath = Directory.EnumerateFiles(path, "*.error.zip").First();
 						this.FileName = Path.GetFileName(this.FilePath);
 						return this.stream = new FileStream(this.FilePath, FileMode.Open, FileAccess.Read, FileShare.None);
 					}
@@ -270,13 +270,13 @@ namespace NBug.Core.Util.Storage
 			else if (Settings.StoragePath == Enums.StoragePath.IsolatedStorage)
 			{
 				this.isoStore = IsolatedStorageFile.GetStore(IsolatedStorageScope.User | IsolatedStorageScope.Assembly | IsolatedStorageScope.Domain, null, null);
-				
-				if (this.isoStore.GetFileNames("Exception_*.zip").Count() > 0)
+
+                if (this.isoStore.GetFileNames("*.error.zip").Count() > 0)
 				{
 					try
 					{
 						this.FilePath = null;
-						this.FileName = this.isoStore.GetFileNames("Exception_*.zip").First();
+                        this.FileName = this.isoStore.GetFileNames("*.error.zip").First();
 						this.stream = new IsolatedStorageFileStream(this.FileName, FileMode.Open, FileAccess.Read, FileShare.None);
 						return this.stream;
 					}
@@ -297,11 +297,11 @@ namespace NBug.Core.Util.Storage
 			{
 				string path = Path.GetFullPath(Settings.StoragePath);
 
-				if (Directory.Exists(path) && Directory.EnumerateFiles(path, "Exception_*.zip").Count() > 0)
+                if (Directory.Exists(path) && Directory.EnumerateFiles(path, "*.error.zip").Count() > 0)
 				{
 					try
 					{
-						this.FilePath = Directory.EnumerateFiles(path, "Exception_*.zip").First();
+                        this.FilePath = Directory.EnumerateFiles(path, "*.error.zip").First();
 						this.FileName = Path.GetFileName(this.FilePath);
 						return this.stream = new FileStream(this.FilePath, FileMode.Open, FileAccess.Read, FileShare.None);
 					}
@@ -328,7 +328,7 @@ namespace NBug.Core.Util.Storage
 		{
 			if (Directory.Exists(path))
 			{
-				int reportCount = Directory.EnumerateFiles(path, "Exception_*.zip").Count();
+				int reportCount = Directory.EnumerateFiles(path, "*.error.zip").Count();
 
 				if (reportCount > maxQueuedReports)
 				{
@@ -343,7 +343,7 @@ namespace NBug.Core.Util.Storage
 						Logger.Trace("Truncating extra " + extraCount + " report files from: " + path);
 					}
 
-					foreach (var file in Directory.EnumerateFiles(path, "Exception_*.zip"))
+					foreach (var file in Directory.EnumerateFiles(path, "*.error.zip"))
 					{
 						extraCount--;
 						File.Delete(file);

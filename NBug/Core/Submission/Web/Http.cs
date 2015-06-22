@@ -73,7 +73,23 @@ namespace NBug.Core.Submission.Web
 			    var fs = (FileStream) ReportFile ;
 			    var name = fs.Name;
                 ReportFile.Close();
-				var response = webClient.UploadFile(this.Url, fs.Name);
+
+			    var url = this.Url;
+
+                var request = (HttpWebRequest)WebRequest.Create(url);
+                request.Method = "HEAD";
+                request.AllowAutoRedirect = false;
+
+                using (var wr = request.GetResponse() as HttpWebResponse)
+                {
+                    if (wr.StatusCode == HttpStatusCode.Redirect || wr.StatusCode == HttpStatusCode.TemporaryRedirect || wr.StatusCode == HttpStatusCode.RedirectKeepVerb || wr.StatusCode == HttpStatusCode.Moved
+                        || wr.StatusCode == HttpStatusCode.MovedPermanently)
+                    {
+                        url = wr.GetResponseHeader("Location");
+                    }
+                }
+
+				var response = webClient.UploadFile(url, fs.Name);
 				Logger.Info("Response from HTTP server: " + System.Text.Encoding.ASCII.GetString(response));
 			}
 

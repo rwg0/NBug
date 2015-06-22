@@ -100,7 +100,7 @@ namespace NBug.Core.Reporting
 				// Test if there is already more than enough queued report files
 				if (Settings.MaxQueuedReports < 0 || Storer.GetReportCount() < Settings.MaxQueuedReports)
 				{
-					var reportFileName = MakeFileName(serializableException) + ".zip";
+					var reportFileName = MakeFileName(serializableException) + ".error.zip";
 					var minidumpFilePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), "Exception_MiniDump_" + DateTime.UtcNow.ToFileTime() + ".mdmp");
 
 					using (var storer = new Storer())

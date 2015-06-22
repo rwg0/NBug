@@ -15,7 +15,7 @@ namespace NBug.Core.UI.WinForms
 
 	internal partial class Full : Form
 	{
-		private UIDialogResult uiDialogResult;
+		private UIDialogResult uiDialogResult = new UIDialogResult(ExecutionFlow.BreakExecution, SendReport.DoNotSend);
 
 		internal Full()
 		{
@@ -89,10 +89,6 @@ namespace NBug.Core.UI.WinForms
 			}*/
 		}
 
-        private void Full_FormClosed(object sender, FormClosedEventArgs e)
-        {
-            this.uiDialogResult = new UIDialogResult(ExecutionFlow.BreakExecution, SendReport.DoNotSend);
-//            this.Close();
-        }
+   
 	}
 }

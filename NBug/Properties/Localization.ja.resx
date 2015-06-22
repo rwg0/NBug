@@ -136,7 +136,7 @@
     <value>Please add a brief description of how we can reproduce the error:</value>
   </data>
   <data name="UI_Dialog_Full_Message" xml:space="preserve">
-    <value>The application has crashed and it will now be dismissed. If you click Quit, the application will close immediately. If you click Send and Quit, the application will close and a bug report will be send.</value>
+    <value>The application has crashed and it will now be dismissed. If you click Quit, the application will close immediately. If you click Send and Quit, the application will close and a bug report will be sent.</value>
   </data>
   <data name="UI_Dialog_Full_Quit_Button" xml:space="preserve">
     <value>&amp;Quit</value>

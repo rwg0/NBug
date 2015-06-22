@@ -4,6 +4,8 @@
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
+using System.Text;
+
 namespace NBug.Core.Reporting
 {
 	using System;
@@ -91,7 +93,7 @@ namespace NBug.Core.Reporting
 				// Test if there is already more than enough queued report files
 				if (Settings.MaxQueuedReports < 0 || Storer.GetReportCount() < Settings.MaxQueuedReports)
 				{
-					var reportFileName = "Exception_" + DateTime.UtcNow.ToFileTime() + ".zip";
+					var reportFileName = MakeFileName(serializableException) + ".zip";
 					var minidumpFilePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), "Exception_MiniDump_" + DateTime.UtcNow.ToFileTime() + ".mdmp");
 
 					using (var storer = new Storer())
@@ -162,7 +164,31 @@ namespace NBug.Core.Reporting
 			}
 		}
 
-		// ToDo: PRIORITY TASK! This code needs more testing & condensation
+	    private string MakeFileName(SerializableException serializableException)
+	    {
+	        StringBuilder bld = new StringBuilder();
+	        bld.Append(serializableException.Type);
+            if (!string.IsNullOrEmpty(serializableException.StackTrace))
+            {
+                string line1 = serializableException.StackTrace.Split('\r')[0];
+                if (line1.IndexOf(')')!=-1)
+                {
+                    bld.Append(line1.Substring(0, line1.IndexOf(')') + 1));
+                }
+                if (line1.IndexOf(".cs:") != -1)
+                {
+                    bld.Append(line1.Substring(line1.IndexOf(".cs:")+3));
+                }
+            }
+	        bld.Append("_");
+	        bld.Append(DateTime.UtcNow.ToFileTimeUtc());
+	        bld.Replace("  ", " ");
+	        foreach (char c in Path.GetInvalidFileNameChars())
+	            bld.Replace(c, '_');
+	        return bld.ToString();
+	    }
+
+	    // ToDo: PRIORITY TASK! This code needs more testing & condensation
 		private void AddAdditionalFiles(ZipStorer zipStorer)
 		{
 			foreach (var mask in Settings.AdditionalReportFiles)

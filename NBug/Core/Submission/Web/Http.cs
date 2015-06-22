@@ -4,6 +4,8 @@
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
+using System.Net;
+
 namespace NBug.Core.Submission.Web
 {
 	using System.IO;
@@ -81,9 +83,9 @@ namespace NBug.Core.Submission.Web
 
 			using (var webClient = new WebClient())
 			{
-			    var fs = (FileStream) ReportFile ;
+			    var fs = (FileStream) file ;
 			    var name = fs.Name;
-                ReportFile.Close();
+                file.Close();
 
 			    var url = this.Url;
 

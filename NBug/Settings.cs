@@ -419,7 +419,9 @@ namespace NBug
 		/// </summary>
 		private static bool DeferredReporting { get; set; }
 
-		/// <summary>
+	    public static bool TrySendingBeforeExit { get; set; }
+
+	    /// <summary>
 		/// Adds a destination based on a connection string.
 		/// </summary>
 		/// <param name="connectionString">Connection string.</param>
